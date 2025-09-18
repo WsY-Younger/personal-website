@@ -5,3 +5,8 @@
 :root {
   color-scheme: light;
 }
+
+/* 丝滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
