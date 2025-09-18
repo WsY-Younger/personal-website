@@ -8,7 +8,7 @@ import { Download, Mail, Linkedin, Globe, MapPin, ExternalLink, BookOpen, Briefc
 
 // ======= DATA (edit here) =======
 const profile = {
-  name: "王思宇 / Nico",
+  name: "王思宇 / Sylvia",
   title_zh: "战略研究 / 行业分析 / 数据分析",
   title_en: "Strategy & Industry Research · Data Analytics",
   location: "Beijing / Shanghai / Hongkong",
@@ -216,16 +216,52 @@ export default function App() {
           </div>
           <Card className="shadow-sm rounded-2xl">
             <CardHeader>
-              <CardTitle className="text-base">{t("contact","快速联系","Quick Contact")}</CardTitle>
+              <CardTitle className="text-base">
+                {t("contact","快速联系","Quick Contact")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
-                <Input placeholder={t("name","你的名字","Your name")} />
-                <Input placeholder={t("email","你的邮箱","Your email")}/>
-                <Input placeholder={t("msg","你的需求（如：战略研究岗位）","Your message (e.g., Strategy Research role)")} />
-                <Button className="w-full rounded-2xl">{t("send","发送","Send")}</Button>
-                <p className="text-xs text-slate-500">{t("note","此表单为静态示例，连接表单服务后可发送到你的邮箱。","This form is a static demo; wire it to a form service to receive emails.")}</p>
-              </div>
+              <form
+                action="https://formsubmit.co/w010419sy@ruc.edu.cn"
+                method="POST"
+                className="space-y-2"
+              >
+                <Input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                />
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Your email"
+                  required
+                />
+                <Input
+                  type="text"
+                  name="message"
+                  placeholder="Your message (e.g., Strategy Research role)"
+                  required
+                />
+
+                {/* 关键：提交后跳转到 thanks.html */}
+                <input
+                  type="hidden"
+                  name="_next"
+                  value="https://wsy-younger.github.io/personal-website/thanks.html"
+                />
+
+                {/* 可选：关闭验证码 */}
+                <input type="hidden" name="_captcha" value="false" />
+
+                <Button type="submit" className="w-full rounded-2xl">
+                  {t("send", "发送", "Send")}
+                </Button>
+              </form>
+              <p className="text-xs text-slate-500">
+                {t("note","提交后会直接发到邮箱，无需后台。","This form sends directly to your email.")}
+              </p>
             </CardContent>
           </Card>
         </div>
