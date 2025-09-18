@@ -1,169 +1,174 @@
-import { PROFILE } from "./constants";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
+// ===== 自定义配置（按需修改）=====
+const EMAIL = "w010419sy@ruc.edu.cn";
+// 如果你的仓库名不是 personal-website，请把下面路径换成你的实际仓库名
+const THANKS_URL = "/personal-website/thanks.html";
+// =================================
 
-function Navbar() {
+type Lang = "en" | "zh";
+
+const copy = {
+  en: {
+    nav: { about: "About", contact: "Contact", lang: "中 / EN" },
+    hero: {
+      title: "Sylvia Wang",
+      subtitle: "Economics & Strategy Research",
+      summary:
+        "M.Sc. in Economics. Focus on digital economy & low-carbon. Experience in research, market analysis, and cross-functional collaboration.",
+      btnCv: "Download CV",
+      btnEmail: "Email Me",
+    },
+    about: {
+      title: "About",
+      paragraph:
+        "Graduate in Economics with research experience in digital economy and low-carbon agriculture. Hands-on with fixed effects panel models, market analysis, and cross-functional collaboration.",
+    },
+    contact: {
+      title: "Quick Contact",
+      name: "Your name",
+      email: "Your email",
+      msg: "Your message (e.g., Strategy Research role)",
+      send: "Send",
+      note:
+        'This form is live. Messages will be delivered to my mailbox via FormSubmit.',
+    },
+  },
+  zh: {
+    nav: { about: "关于我", contact: "联系我", lang: "EN / 中" },
+    hero: {
+      title: "Sylvia Wang / 王思宇",
+      subtitle: "经济学与战略研究",
+      summary:
+        "经济学硕士，关注数字经济与低碳方向，具备研究、市场分析与跨部门协作经验。",
+      btnCv: "下载简历",
+      btnEmail: "发邮件",
+    },
+    about: {
+      title: "关于我",
+      paragraph:
+        "经济学研究生，方向为数字经济与农业低碳。熟悉固定效应面板模型、市场分析与跨部门协作，曾参与社会科学与运营相关项目。",
+    },
+    contact: {
+      title: "快速联系",
+      name: "你的名字",
+      email: "你的邮箱",
+      msg: "你的需求（如：战略研究岗位）",
+      send: "发送",
+      note: "此表单为真实表单，提交后会通过 FormSubmit 转发到我的邮箱。",
+    },
+  },
+};
+
+function Navbar({
+  lang,
+  toggle,
+}: {
+  lang: Lang;
+  toggle: () => void;
+}) {
+  const t = copy[lang].nav;
+
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
       <nav className="mx-auto max-w-5xl px-4 h-14 flex items-center justify-between">
-        {/* 左边：名字 Logo */}
-        <a href="#top" className="font-semibold text-lg">{PROFILE.nameEn}</a>
-
-        {/* 右边：导航菜单 */}
-        <div className="flex items-center gap-6 text-sm">
-          <a href="#about" className="hover:underline">About</a>
-          <a href="#projects" className="hover:underline">Projects</a>
-          <a href="#contact" className="hover:underline">Contact</a>
+        <a href="#top" className="font-semibold">
+          {lang === "en" ? "Personal Website" : "个人网站"}
+        </a>
+        <div className="flex items-center gap-5 text-sm">
+          <a href="#about" className="hover:underline">
+            {t.about}
+          </a>
+          <a href="#contact" className="hover:underline">
+            {t.contact}
+          </a>
+          <Button variant="outline" className="h-8 px-3" onClick={toggle}>
+            {t.lang}
+          </Button>
         </div>
       </nav>
     </header>
   );
 }
 
-function Hero() {
-  return (
-    <section id="top" className="mx-auto max-w-5xl px-4 py-10 md:py-14">
-      <div className="grid md:grid-cols-[120px,1fr] items-center gap-6">
-        <img
-          src={PROFILE.avatar}
-          alt={PROFILE.nameEn}
-          className="w-24 h-24 rounded-full object-cover ring-2 ring-gray-200"
-          onError={(e:any)=>{e.currentTarget.style.display='none'}}
-        />
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold">
-            {PROFILE.nameEn} <span className="text-gray-400">/ {PROFILE.nameZh}</span>
-          </h1>
-          <p className="mt-2 text-gray-700">{PROFILE.title}</p>
-          <p className="mt-3 text-gray-600">{PROFILE.blurb}</p>
+function Hero({ lang }: { lang: Lang }) {
+  const t = copy[lang].hero;
 
-          <div className="mt-5 flex flex-wrap gap-3">
-            <a className="rounded-lg bg-gray-900 text-white px-4 py-2"
-               href={PROFILE.cvPath} download>
-              Download CV
-            </a>
-            <a className="rounded-lg border px-4 py-2"
-               href={`mailto:${PROFILE.email}?subject=${encodeURIComponent("Inquiry from Personal Website")}`}>
-              Email Me
-            </a>
-          </div>
-        </div>
+  return (
+    <section
+      id="top"
+      className="min-h-[72vh] flex flex-col items-center justify-center text-center px-4"
+    >
+      <h1 className="text-4xl sm:text-5xl font-bold">{t.title}</h1>
+      <p className="mt-3 text-lg text-gray-700">{t.subtitle}</p>
+      <p className="mt-6 text-gray-600 max-w-2xl leading-relaxed">{t.summary}</p>
+
+      <div className="mt-8 flex gap-4">
+        <a
+          href="/personal-website/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button className="px-6 py-3 text-base">{t.btnCv}</Button>
+        </a>
+        <a href={`mailto:${EMAIL}`}>
+          <Button variant="outline" className="px-6 py-3 text-base border-gray-300">
+            {t.btnEmail}
+          </Button>
+        </a>
       </div>
     </section>
   );
 }
 
-function About() {
+function About({ lang }: { lang: Lang }) {
+  const t = copy[lang].about;
+
   return (
-    <section id="about" className="mx-auto max-w-5xl px-4 py-10">
-      <h2 className="text-xl font-semibold mb-4">About</h2>
+    <section id="about" className="mx-auto max-w-5xl px-4 py-12">
+      <h2 className="text-xl font-semibold mb-4">{t.title}</h2>
       <Card>
         <CardContent className="pt-6 text-gray-700 leading-relaxed">
-          <p>
-            Graduate in Economics with research experience in digital economy and
-            low-carbon agriculture. Hands-on with fixed effects panel models, market
-            analysis, and cross-functional collaboration. Previously co-founded a
-            small international trade initiative to explore China market entry for
-            overseas SMEs.
-          </p>
+          {t.paragraph}
         </CardContent>
       </Card>
     </section>
   );
 }
 
-function Projects() {
-  const items = [
-    {
-      title: "International Trade Startup",
-      period: "Mar–Sep 2023",
-      bullets: [
-        "Outreach to 3 overseas firms (incl. coconut wine brand) via online expos.",
-        "Drafted market entry outline; compiled competitor & pricing briefs.",
-      ],
-    },
-    {
-      title: "Thesis — Digital Economy & Agri Emissions",
-      period: "Mar–Jun 2023",
-      bullets: [
-        "FE panel model across cities; finding: digital economy reduces agri CO₂.",
-        "Discussed measurement limits & channels; reproducible notes available.",
-      ],
-    },
-  ];
+function Contact({ lang }: { lang: Lang }) {
+  const t = copy[lang].contact;
 
   return (
-    <section id="projects" className="mx-auto max-w-5xl px-4 py-10">
-      <h2 className="text-xl font-semibold mb-4">Projects & Research</h2>
-      <div className="grid gap-4">
-        {items.map((it) => (
-          <Card key={it.title}>
-            <CardHeader>
-              <CardTitle className="text-base flex items-center justify-between">
-                <span>{it.title}</span>
-                <span className="text-sm text-gray-500">{it.period}</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0 pb-4">
-              <ul className="list-disc ml-5 space-y-1 text-gray-700">
-                {it.bullets.map((b, i) => <li key={i}>{b}</li>)}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Contact() {
-  return (
-    <section id="contact" className="mx-auto max-w-5xl px-4 py-10">
-      <h2 className="text-xl font-semibold mb-4">Quick Contact</h2>
+    <section id="contact" className="mx-auto max-w-5xl px-4 py-12">
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Send me a message</CardTitle>
+          <CardTitle className="text-base">{t.title}</CardTitle>
         </CardHeader>
         <CardContent>
           <form
-            action="https://formsubmit.co/w010419sy@ruc.edu.cn"
+            action={`https://formsubmit.co/${EMAIL}`}
             method="POST"
-            className="space-y-2"
+            className="space-y-3"
           >
-            <Input
-              type="text"
-              name="name"
-              placeholder="Your name"
-              required
-            />
-            <Input
-              type="email"
-              name="email"
-              placeholder="Your email"
-              required
-            />
-            <Input
-              type="text"
-              name="message"
-              placeholder="Your message (e.g., Strategy Research role)"
-              required
-            />
-
-            {/* 关键：提交后跳转到 thanks.html */}
-            <input
-              type="hidden"
-              name="_next"
-              value="https://wsy-younger.github.io/personal-website/thanks.html"
-            />
-
-            {/* 可选：关闭验证码 */}
+            {/* 成功后跳转到感谢页；如果你的仓库名不同请改成你的路径 */}
+            <input type="hidden" name="_next" value={THANKS_URL} />
+            {/* 关闭验证码（你也可以删掉这行来启用验证码） */}
             <input type="hidden" name="_captcha" value="false" />
 
-            <Button type="submit" className="w-full rounded-2xl">Send</Button>
-          </form>
+            <Input name="name" placeholder={t.name} required />
+            <Input type="email" name="email" placeholder={t.email} required />
+            <Input name="message" placeholder={t.msg} required />
 
+            <Button type="submit" className="w-full rounded-2xl">
+              {t.send}
+            </Button>
+
+            <p className="text-xs text-gray-500">{t.note}</p>
+          </form>
         </CardContent>
       </Card>
     </section>
@@ -171,15 +176,19 @@ function Contact() {
 }
 
 export default function App() {
+  const [lang, setLang] = useState<Lang>("en");
+  const toggleLang = () => setLang((p) => (p === "en" ? "zh" : "en"));
+
   return (
-    <div className="text-gray-900">
-      <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Contact />
-      <footer className="mx-auto max-w-5xl px-4 py-10 text-sm text-gray-500">
-        © {new Date().getFullYear()} {PROFILE.nameEn}. {PROFILE.location}
+    <div className="min-h-screen">
+      <Navbar lang={lang} toggle={toggleLang} />
+      <main>
+        <Hero lang={lang} />
+        <About lang={lang} />
+        <Contact lang={lang} />
+      </main>
+      <footer className="py-10 text-center text-xs text-gray-500">
+        © {new Date().getFullYear()} Sylvia Wang
       </footer>
     </div>
   );
