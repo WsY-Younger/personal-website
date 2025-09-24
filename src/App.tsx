@@ -190,9 +190,15 @@ export default function App() {
             <Button variant="outline" className="rounded-2xl" onClick={() => setLang(lang === "zh" ? "en" : "zh")}> 
               <Languages className="w-4 h-4 mr-1" /> {lang === "zh" ? "EN" : "中文"}
             </Button>
-            <Button variant="default" className="rounded-2xl">
-              <Download className="w-4 h-4 mr-1" /> {t("download","下载简历","Download CV")}
-            </Button>
+            <a
+              href="/Sylvia_Wang_CV.pdf"  // 这里改成你实际简历文件的名字
+              download="Sylvia_Wang_CV.pdf"
+              className="inline-flex items-center rounded-2xl bg-slate-900 text-white px-4 py-2 hover:bg-slate-800 transition"
+            >
+              <Download className="w-4 h-4 mr-1" /> 
+              {t("download", "下载简历", "Download CV")}
+            </a>
+
           </div>
         </div>
       </header>
