@@ -236,7 +236,7 @@ export default function App() {
               >
                 <Input type="text" name="name" placeholder={t("name","你的名字","Your name")} required />
                 <Input type="email" name="email" placeholder={t("email","你的邮箱","Your email")} required />
-                <Input type="text" name="message" placeholder={t("msg","你的问题","Your message (e.g., Strategy Research role)")} required />
+                <Input type="text" name="message" placeholder={t("msg","你的问题","Your question")} required />
 
                 {/* 防垃圾机器人 */}
                 <input type="hidden" name="_captcha" value="false" />
